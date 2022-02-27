@@ -4,10 +4,14 @@ RUN useradd ubuntu
 
 RUN apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends tzdata
-RUN apt install -y python3 vim less wget tmux curl psmisc htop rsync build-essential cowsay
+RUN apt install -y python3 vim less wget tmux curl psmisc htop rsync build-essential cowsay unzip
 
 RUN curl -fsSL https://deb.nodesource.com/setup_17.x | bash -
 RUN apt install -y nodejs
+
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+RUN unzip awscliv2.zip
+RUN ./aws/install
 
 WORKDIR /tmp
 RUN wget https://ipfs.io/ipns/dist.ipfs.io/go-ipfs/v0.12.0/go-ipfs_v0.12.0_linux-amd64.tar.gz
