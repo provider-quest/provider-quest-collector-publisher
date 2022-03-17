@@ -10,17 +10,26 @@ if (!targetDir || targetDir === undefined) {
   process.exit(1)
 }
 
-const files = fs.readdirSync(targetDir)
-for (const file of files) {
-  const match = file.match(/.*-(\d+)(-[^.]*)?\./)
-  if (match) {
-    const stat = fs.statSync(`${targetDir}/${file}`)
-    const date = epochToDate(Number(match[1]))
-    let touched = false
-    if (stat.mtime.getTime() !== date.getTime()) {
-      fs.utimesSync(`${targetDir}/${file}`, date, date)
-      touched = true
-    }
-    console.log(file, match[1], date.toISOString(), stat.mtime, touched ? '=> touched' : '')
-  }
+function fixFiles (targetDir) {
+	const files = fs.readdirSync(targetDir)
+	for (const file of files) {
+		const stat = fs.statSync(`${targetDir}/${file}`)
+		if (stat.isDirectory()) {
+			fixFiles(`${targetDir}/${file}`)
+		} else {
+			const match = file.match(/.*-(\d+)(-[^.]*)?\./)
+			if (match) {
+				const stat = fs.statSync(`${targetDir}/${file}`)
+				const date = epochToDate(Number(match[1]))
+				let touched = false
+				if (stat.mtime.getTime() !== date.getTime()) {
+					fs.utimesSync(`${targetDir}/${file}`, date, date)
+					touched = true
+				}
+				console.log(file, match[1], date.toISOString(), stat.mtime, touched ? '=> touched' : '')
+			}
+		}
+	}
 }
+
+fixFiles(targetDir)
