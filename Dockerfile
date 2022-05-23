@@ -20,6 +20,12 @@ RUN tar xf go-ipfs_${IPFS_VER}_linux-amd64.tar.gz
 RUN mv /tmp/go-ipfs/ipfs /usr/local/bin
 RUN rm -rf go-ipfs*
 
+ENV IPFS_CLUSTER_VER=v1.0.1
+RUN wget https://dist.ipfs.io/ipfs-cluster-ctl/${IPFS_CLUSTER_VER}/ipfs-cluster-ctl_${IPFS_CLUSTER_VER}_linux-amd64.tar.gz
+RUN tar xf ipfs-cluster-ctl_${IPFS_CLUSTER_VER}_linux-amd64.tar.gz
+RUN mv /tmp/ipfs-cluster-ctl/ipfs-cluster-ctl /usr/local/bin
+RUN rm -rf ipfs-cluster-ctl*
+
 RUN mkdir /home/ubuntu
 WORKDIR /home/ubuntu/provider-quest-collector-publisher
 
