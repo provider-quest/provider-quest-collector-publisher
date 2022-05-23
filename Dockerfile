@@ -4,7 +4,7 @@ RUN useradd ubuntu
 
 RUN apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends tzdata
-RUN apt install -y python3 vim less wget tmux curl psmisc htop rsync build-essential cowsay unzip rclone
+RUN apt install -y python3 vim less wget tmux curl psmisc htop rsync build-essential cowsay unzip rclone jq
 
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
 RUN apt install -y nodejs
